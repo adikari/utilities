@@ -1,0 +1,11 @@
+{
+  "name": "utilities",
+  "version": "1.0.0",
+  "description": "collection of utility packages",
+  "repository": "git@github.com:adikari/utilities.git",
+  "author": "subash <me@subash.com.au>",
+  "license": "MIT",
+  "devDependencies": {
+    "lerna": "^3.22.1"
+  }
+}
