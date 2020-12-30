@@ -26,15 +26,14 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - name: Authenticate with registry
-        run: |
-          cat /home/runner/work/_temp/.npmrc
-          echo "----"
-          npm config set @adikari:registry http://registry.npmjs.org/
-          cat /home/runner/work/_temp/.npmrc
-          npm whoami
+        run: npm config set @adikari:registry http://registry.npmjs.org/
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Publish to npm
-        run: yarn release
+        run: |
+          npm whoami
+          yarn release
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
