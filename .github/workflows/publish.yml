@@ -1,12 +1,11 @@
 name: Publish
 
-on: [push]
-# on:
-#   workflow_run:
-#     workflows: [build]
-#     branches: [master]
-#     types:
-#       - completed
+on:
+  workflow_run:
+    workflows: [build]
+    branches: [master]
+    types:
+      - completed
 
 jobs:
   publish:
