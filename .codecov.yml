@@ -1,12 +1,10 @@
 coverage:
+  parsers:
+    javascript:
+      enable_partials: yes
   status:
     project:
       default:
-        threshold: 90%
-        branches:
-          - master
-        if_ci_failed: error
-        flags:
-          - config-manager
-        paths:
-          - packages/config-manager
+        target: "90%"
+    patch:
+      enabled: false
