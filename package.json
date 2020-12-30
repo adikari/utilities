@@ -5,6 +5,11 @@
   "repository": "git@github.com:adikari/utilities.git",
   "author": "subash <me@subash.com.au>",
   "license": "MIT",
+  "scripts": {
+    "test": "lerna run test --since master",
+    "lint": "lerna run lint --since master",
+    "release": "lerna publish from-package --yes --message 'chore: release new version'"
+  },
   "devDependencies": {
     "lerna": "^3.22.1"
   }
