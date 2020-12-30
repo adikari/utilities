@@ -2,11 +2,6 @@ coverage:
   status:
     project:
       default:
-        threshold: 90%
-        branches:
-          - master
-        if_ci_failed: error
-        flags:
-          - config-manager
-        paths:
-          - packages/config-manager
+        target: "95%"
+    patch:
+      enabled: false
