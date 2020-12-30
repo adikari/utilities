@@ -1,0 +1,165 @@
+#!/usr/bin/env node
+
+'use strict';
+
+const chalk = require('chalk');
+const pjson = require('../package.json');
+const program = require('commander');
+const { makeConfigManager } = require('../lib/make-config-manager');
+const { logError, log } = require('../lib/utils/logger');
+
+let configManagerPromise = null;
+
+program
+  .version(pjson.version)
+  .option('-s, --stage [stage]', 'Specify stage to run on. (required)')
+  .option(
+    '-c, --config [config]',
+    'Path to config manager configuration',
+    'configs.yml'
+  );
+
+program
+  .command('run')
+  .description('Verify or populate all remote configurations and secrets.')
+  .option(
+    '-v, --variables [variables]',
+    'Variables used for config interpolation.'
+  )
+  .option('-i, --interactive', 'Run on interactive mode')
+  .option('-m, --missing', 'Only prompt missing values in interactive mode')
+  .action(({ interactive, variables, missing }) => {
+    let parsedVariables = {};
+
+    try {
+      if (variables) {
+        parsedVariables = JSON.parse(variables);
+      }
+    } catch (error) {
+      logError(`Variables must be in JSON format!! ${error.message}.`);
+      program.help();
+    }
+
+    const params = {
+      stage: program.stage,
+      interactive,
+      missingOnly: missing,
+      config: program.config,
+      variables: parsedVariables
+    };
+
+    configManagerPromise = makeConfigManager(params).run();
+  });
+
+program
+  .command('init')
+  .description('Initialize configManager. Only required to run once.')
+  .action(() => {
+    const params = {
+      stage: program.stage,
+      config: program.config
+    };
+
+    configManagerPromise = makeConfigManager(params).init();
+  });
+
+program
+  .command('export')
+  .description(
+    'Export of all of the configuration from the provider to a text json file'
+  )
+  .option(
+    '-p, --path [path]',
+    'The location for the output secrets & configuration file (default: "/tmp/config-exports.json")'
+  )
+  .action(({ path }) => {
+    const params = {
+      stage: program.stage,
+      config: program.config
+    };
+
+    configManagerPromise = makeConfigManager(params).export(
+      path || '/tmp/config-exports.json'
+    );
+  });
+
+program
+  .command('import')
+  .description(
+    'Import all of the configuration from the json from to a provider'
+  )
+  .option(
+    '-p, --path [path]',
+    'The location of the secrets and configuration file (default: "/tmp/config-exports.json")'
+  )
+  .action(({ path }) => {
+    const params = {
+      stage: program.stage,
+      config: program.config
+    };
+
+    configManagerPromise = makeConfigManager(params).import(
+      path || '/tmp/config-exports.json'
+    );
+  });
+
+program
+  .command('list')
+  .description('List all remote configurations and secrets.')
+  .action(() => {
+    const params = {
+      stage: program.stage,
+      config: program.config
+    };
+
+    configManagerPromise = makeConfigManager(params).list();
+  });
+
+program
+  .command('fetch')
+  .description('Fetch config or secret')
+  .option(
+    '-k, --key [key]',
+    'The config/secret key (example: "/test/email/config/SOME_VALUE")'
+  )
+  .action(({ key }) => {
+    const params = {
+      stage: program.stage,
+      config: program.config
+    };
+
+    configManagerPromise = makeConfigManager(params).fetch({ key });
+  });
+
+function displayHelpAndExit() {
+  program.help();
+  process.exit(1);
+}
+
+program.on('command:*', () => {
+  logError(`Invalid command - ${program.args.join()}`);
+  displayHelpAndExit();
+});
+
+program.parse(process.argv);
+
+if (!process.argv.slice(2).length) {
+  displayHelpAndExit();
+}
+
+if (!program.stage) {
+  logError('Invalid options!! You must specify stage.');
+  displayHelpAndExit();
+}
+
+if (!configManagerPromise) {
+  logError('Invalid command!! At least one command must be executed.');
+  displayHelpAndExit();
+}
+
+configManagerPromise
+  .tap(() => log(chalk.green('Done.')))
+  .catch(err => {
+    logError(err);
+    process.exit(1);
+  });

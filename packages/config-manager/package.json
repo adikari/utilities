@@ -1,0 +1,72 @@
+{
+  "name": "@adikari/config-manager",
+  "version": "1.0.0",
+  "description": "Tool to deploy configs to different stores",
+  "repository": "https://github.com/adikari/utilities.git",
+  "author": "subash adhikari <me@subash.com.au>",
+  "engines": {
+    "node": ">=8.10.0"
+  },
+  "license": "MIT",
+  "bin": {
+    "config-manager": "./bin/config-manager"
+  },
+  "scripts": {
+    "lint": "yarn eslint .",
+    "test": "yarn jest --coverage"
+  },
+  "keywords": [
+    "amazon-web-services",
+    "aws-parameter-store",
+    "aws-dynamodb",
+    "configuration-management",
+    "aws"
+  ],
+  "bugs": {
+    "url": "https://github.com/adikari/utilities/issues"
+  },
+  "homepage": "https://github.com/adikari/utilities",
+  "dependencies": {
+    "aws-sdk": "^2.263.1",
+    "bluebird": "^3.5.1",
+    "cfn": "^1.8.1",
+    "chalk": "^2.4.1",
+    "commander": "^2.19.0",
+    "dataloader": "^1.4.0",
+    "decimal.js-light": "^2.5.0",
+    "deep-map": "^1.5.0",
+    "execa": "^1.0.0",
+    "js-yaml": "^3.12.0",
+    "lodash.chunk": "^4.2.0",
+    "lodash.flatten": "^4.4.0",
+    "lodash.get": "^4.4.2",
+    "lodash.isempty": "^4.4.0",
+    "lodash.map": "^4.6.0",
+    "lodash.mapkeys": "^4.6.0",
+    "lodash.mapvalues": "^4.6.0",
+    "lodash.padstart": "^4.6.1",
+    "lodash.template": "^4.4.0",
+    "lodash.values": "^4.3.0",
+    "prompt": "^1.0.0",
+    "root-path": "^0.2.1"
+  },
+  "devDependencies": {
+    "eslint": "^6.6.0",
+    "eslint-plugin-node": "^10.0.0",
+    "eslint-plugin-prettier": "^3.1.0",
+    "eslint-plugin-promise": "^3.4.1",
+    "jest": "^23.2.0",
+    "prettier": "^1.18.2"
+  },
+  "peerDependencies": {},
+  "jest": {
+    "coverageThreshold": {
+      "global": {
+        "statements": 90,
+        "branches": 68,
+        "lines": 90,
+        "functions": 90
+      }
+    }
+  }
+}

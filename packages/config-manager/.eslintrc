@@ -1,0 +1,46 @@
+{
+    "plugins": [
+        "node",
+        "promise",
+        "prettier"
+    ],
+    "extends": [
+        "eslint:recommended",
+        "plugin:node/recommended"
+    ],
+    "env": {
+        "node": true,
+        "mocha": true,
+        "jest": true
+    },
+    "settings": {
+        "node": {
+            "allowModules": [
+                "aws-sdk"
+            ]
+        }
+    },
+    "rules": {
+        "no-unused-vars": [2, { "argsIgnorePattern": "^_" }],
+        "no-console": 0,
+        "no-process-exit": 0,
+        "promise/param-names": 2,
+        "promise/catch-or-return": 2,
+        "promise/no-native": 0,
+        "node/no-unpublished-require": [
+            "error",
+            {
+                "allowModules": [
+                    "aws-sdk",
+                ]
+            }
+        ],
+        "comma-dangle": [
+            "error",
+            {
+                "arrays": "only-multiline",
+                "objects": "only-multiline"
+            }
+        ]
+    }
+}
