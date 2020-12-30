@@ -2,10 +2,21 @@
 
 Reads parameters from specified provider
 
+## Installation
+
+```
+# Via yarn
+$ yarn add @adikari/config-store
+
+# Via npm
+$ npm install @adikari/config-store
+```
+
+
 ## Examples
 
 ### SSM Provider
-In serverless.yml
+Add IAM policy to allow getting parameters from ssm.
 
 ```yml
 provider:
@@ -18,10 +29,10 @@ provider:
         - arn:aws:ssm:${env:AWS_REGION}:${env:AWS_ACCOUNT_ID}:parameter/staging/foo-service/*
 ```
 ```js
-const { makeParameterStore } = require('@a-cloud-guru/parameter-store');
+const { makeConfigStore } = require('@adikari/config-store');
 const { STAGE } = process.env;
 
-const parameterStore = makeParameterStore({
+const configStore = makeConfigStore({
   configPath: `/${SERVICE_STAGE}/foo-service/config`,
   secretPath: `/${SERVICE_STAGE}/foo-service/secret`,
   provider: {
@@ -30,11 +41,11 @@ const parameterStore = makeParameterStore({
 });
 
 return Promise.all([
-  parameterStore.getConfigs([
+  configStore.getConfigs([
     'THE_CONFIG_1',
     'THE_CONFIG_2'
   ]),
-  parameterStore.getSecrets([
+  configStore.getSecrets([
     'THE_SECRET_1'
   ])
 ])
@@ -51,7 +62,7 @@ return Promise.all([
 ```
 
 ### DynamoDB Provider
-In serverless.yml
+Add IAM policy to allow getting parameters from dynamodb.
 
 ```yml
 provider:
@@ -61,26 +72,26 @@ provider:
       Action:
         - dynamodb:Query # Allow Parameter Store to be read
       Resource:
-        - arn:aws:dynamodb:${env:AWS_REGION}:${env:AWS_ACCOUNT_ID}:table/oprah-foo-service*
+        - arn:aws:dynamodb:${env:AWS_REGION}:${env:AWS_ACCOUNT_ID}:table/config-service*
 ```
 ```js
-const { makeParameterStore } = require('@a-cloud-guru/parameter-store');
+const { makeConfigStore } = require('@adikari/config-store');
 const { STAGE } = process.env;
 
-const parameterStore = makeParameterStore({
+const configStore = makeConfigStore({
   configPath: `/${SERVICE_STAGE}/foo-service/config`,
   secretPath: `/${SERVICE_STAGE}/foo-service/secret`,
   provider: {
-    tableName: `oprah-foo-service-${SERVICE_STAGE}`
+    tableName: `config-service-${SERVICE_STAGE}`
   }
 });
 
 return Promise.all([
-  parameterStore.getConfigs([
+  configStore.getConfigs([
     'THE_CONFIG_1',
     'THE_CONFIG_2'
   ]),
-  parameterStore.getSecrets([
+  configStore.getSecrets([
     'THE_SECRET_1'
   ])
 ])
