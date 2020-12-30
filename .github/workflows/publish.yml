@@ -1,12 +1,11 @@
 name: Publish
 
-on: [push]
-# on:
-#   workflow_run:
-#     workflows: [build]
-#     branches: [master]
-#     types:
-#       - completed
+on:
+  workflow_run:
+    workflows: [build]
+    branches: [master]
+    types:
+      - completed
 
 jobs:
   publish:
@@ -24,11 +23,6 @@ jobs:
 
       - name: Install packages
         run: yarn install --frozen-lockfile
-
-#       - name: Authenticate with registry
-#         run:  npm config set @adikari:registry http://registry.npmjs.org/
-#         env:
-#           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Publish to npm
         run: yarn release
