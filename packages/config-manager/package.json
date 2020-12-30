@@ -59,15 +59,7 @@
     "jest": "^23.2.0",
     "prettier": "^1.18.2"
   },
-  "jest": {
-    "coverageThreshold": {
-      "global": {
-        "statements": 90,
-        "branches": 68,
-        "lines": 90,
-        "functions": 90
-      }
-    }
-  },
-  "gitHead": "b8dc2defd9c1f3d3d5ddfe83d2e9922293773a5b"
+  "publishConfig": {
+    "access": "public"
+  }
 }
