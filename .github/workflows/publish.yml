@@ -27,7 +27,9 @@ jobs:
 
       - name: Publish to npm
         run: |
+          cat /home/runner/work/_temp/.npmrc
           npm config set @adikari:registry http://registry.npmjs.org/
+          cat /home/runner/work/_temp/.npmrc
           npm whoami
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
