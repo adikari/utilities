@@ -1,0 +1,12 @@
+coverage:
+  status:
+    project:
+      default:
+        threshold: 0.90%
+      config-manager:
+        flags: config-manager
+    patch: off
+flags:
+  config-manager:
+    paths:
+      - packages/config-manager
