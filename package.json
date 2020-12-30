@@ -6,6 +6,7 @@
   "author": "subash <me@subash.com.au>",
   "license": "MIT",
   "scripts": {
+    "bootstrap": "lerna bootstrap --ignore-prepublish",
     "test": "lerna run test",
     "lint": "lerna run lint",
     "release": "lerna publish from-package --yes --message 'chore: release new version'"
