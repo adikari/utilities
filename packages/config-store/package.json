@@ -1,0 +1,48 @@
+{
+  "name": "@adikari/config-store",
+  "version": "1.0.1",
+  "description": "Read configuration from config stores",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --coverage",
+    "lint": "eslint ."
+  },
+  "engines": {
+    "node": ">=10.x"
+  },
+  "keywords": [
+    "aws ssm",
+    "aws parameter store",
+    "config manager",
+    "aws dynamodb",
+    "aws secrets manager",
+    "secrets manager"
+  ],
+  "repository": {
+    "url": "https://github.com/adikari/utilities",
+    "type": "git"
+  },
+  "author": "Subash Adhikari <me@subash.com.au>",
+  "license": "MIT",
+  "dependencies": {
+    "bluebird": "^3.5.3",
+    "dataloader": "^1.4.0",
+    "lodash.chunk": "^4.2.0",
+    "lodash.flatten": "^4.4.0",
+    "lodash.get": "^4.4.2"
+  },
+  "devDependencies": {
+    "aws-sdk": "^2.398.0",
+    "eslint": "^7.16.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.3.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "jest": "^22.4.2"
+  },
+  "peerDependencies": {
+    "aws-sdk": "~2.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
