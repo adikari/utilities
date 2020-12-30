@@ -9,7 +9,8 @@
   },
   "license": "MIT",
   "bin": {
-    "config-manager": "./bin/config-manager"
+    "config-manager": "./bin/config-manager",
+    "cm": "./bin/config-manager"
   },
   "scripts": {
     "lint": "yarn eslint .",
