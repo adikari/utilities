@@ -21,7 +21,7 @@ const makeFetch = ({ parameterStore, settingsService }) => {
           parameterNames
         })
       )
-      .then(console.log);
+      .tap(output => console.log(JSON.stringify(output, null, 2)));
 };
 
 module.exports = {
