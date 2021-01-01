@@ -61,7 +61,7 @@ const makeConfigManager = ({
     list: makeList({ settingsService, parameterStore }),
     export: makeExport({ settingsService, parameterStore }),
     import: makeImport({ settingsService, parameterStore }),
-    fetch: makeFetch({ parameterStore })
+    fetch: makeFetch({ parameterStore, settingsService })
   };
 };
 
