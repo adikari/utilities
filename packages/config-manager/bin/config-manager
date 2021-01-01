@@ -119,16 +119,18 @@ program
   .command('fetch')
   .description('Fetch config or secret')
   .option(
-    '-k, --key [key]',
-    'The config/secret key (example: "/test/email/config/SOME_VALUE")'
+    '-k, --keys [keys]',
+    'Comma seperated configs to fetch (example: "SOME_CONFIG,ANOTHER_CONFIG")'
   )
-  .action(({ key }) => {
+  .action(({ keys }) => {
     const params = {
       stage: program.stage,
       config: program.config
     };
 
-    configManagerPromise = makeConfigManager(params).fetch({ key });
+    configManagerPromise = makeConfigManager(params).fetch({
+      keys: (keys && keys.split(',')) || []
+    });
   });
 
 function displayHelpAndExit() {

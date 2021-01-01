@@ -6,6 +6,16 @@ jest.mock('../../services/parameter-store/make-parameter-store', () => ({
   })
 }));
 
+jest.mock('../../services/settings/make-settings-service', () => ({
+  makeSettingsService: () => ({
+    getSettings: () =>
+      Promise.resolve({
+        configParameters: ['/test/john', '/test/steph'],
+        secretParameters: ['/test/SOME_SECRET']
+      })
+  })
+}));
+
 const path = require('path');
 
 const { makeConfigManager } = require('../../make-config-manager');
@@ -16,7 +26,7 @@ describe('fetch', () => {
     config: path.resolve(__dirname, '../../../mocks/ssm-provider.yml')
   });
 
-  it('should retreive the requested key', () => {
+  it('should retreive the requested keys', () => {
     mockGetParameters.mockImplementation(() =>
       Promise.resolve({
         john: 'doe',
@@ -26,21 +36,28 @@ describe('fetch', () => {
 
     expect.assertions(1);
 
-    return configManager.fetch({ key: '/abc/def/g' }).then(() => {
+    return configManager.fetch({ keys: ['john', 'steph'] }).then(() => {
       expect(mockGetParameters.mock.calls[0][0]).toEqual({
-        parameterNames: ['/abc/def/g']
+        parameterNames: ['/test/john', '/test/steph']
       });
     });
   });
 
-  it('should throw if no value is returned', () => {
-    mockGetParameters.mockImplementation(() => Promise.resolve({}));
+  it('should retreive the requested keys only if they exist', () => {
+    mockGetParameters.mockImplementation(() =>
+      Promise.resolve({
+        john: 'doe',
+        steph: 'curry'
+      })
+    );
 
     expect.assertions(1);
 
-    return expect(configManager.fetch({ key: '/abc/def/g' })).rejects.toThrow(
-      'Could not find value'
-    );
+    return configManager.fetch({ keys: ['john', 'steph', 'test'] }).then(() => {
+      expect(mockGetParameters.mock.calls[0][0]).toEqual({
+        parameterNames: ['/test/john', '/test/steph']
+      });
+    });
   });
 });
 
