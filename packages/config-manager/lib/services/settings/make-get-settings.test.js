@@ -1,3 +1,8 @@
+const mockGetOutputs = jest.fn();
+jest.mock('../cf/get-outputs', () => ({
+  getOutputs: mockGetOutputs
+}));
+
 const path = require('path');
 const { makeGetSettings } = require('./make-get-settings');
 
@@ -83,6 +88,41 @@ describe('getSettings', () => {
         secret: {
           keyId:
             'arn:aws:kms:us-east-1:1234:key/65def1bd-e786-4334-a17f-4cc0af72fed3',
+          path: '/test/secret',
+          required: {
+            DB_PASSWORD: 'secret database password'
+          }
+        },
+        secretParameters: ['/test/secret/DB_PASSWORD'],
+        service: 'my-service'
+      });
+    });
+  });
+
+  it('should interpolate the yaml file with cloudformation outputs', () => {
+    mockGetOutputs.mockResolvedValue({ DatabaseName: 'my-database' });
+    const getSettings = makeGetSettings({
+      settingsFilePath: path.resolve(process.cwd(), './mocks/cf-outputs.yml'),
+      variables: {
+        stage: 'test'
+      }
+    });
+
+    return getSettings().then(settings => {
+      expect(settings).toEqual({
+        cfOutputs: ['custom-resources-test'],
+        config: {
+          defaults: {
+            DB_NAME: 'my-database',
+            DB_ARN: 'arn-path-my-database'
+          },
+          path: '/test/config'
+        },
+        configParameters: ['/test/config/DB_NAME', '/test/config/DB_ARN'],
+        provider: {
+          name: 'ssm'
+        },
+        secret: {
           path: '/test/secret',
           required: {
             DB_PASSWORD: 'secret database password'
