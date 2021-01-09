@@ -7,6 +7,7 @@ const { interpolate } = require('./interpolate');
 const { getValidatedSettings } = require('./get-validated-settings');
 const { getAccountId } = require('./get-account-id');
 const { getRegion } = require('./get-region');
+const { getOutputs } = require('../cf/get-outputs');
 
 const deepMap = require('deep-map');
 
@@ -33,11 +34,7 @@ const appendSecretParameters = settings => {
   return Object.assign({}, settings, { secretParameters: parameterNames });
 };
 
-const makeGetSettings = ({
-  settingsFilePath,
-  variables,
-  appendCfOutputs
-}) => () => {
+const makeGetSettings = ({ settingsFilePath, variables }) => () => {
   return Bluebird.resolve()
     .then(() => readFile({ filePath: settingsFilePath }))
     .catch(() => {
@@ -49,11 +46,12 @@ const makeGetSettings = ({
       Promise.all([
         getValidatedSettings({ config }),
         getAccountId(),
-        getRegion()
+        getRegion(),
+        getOutputs({ stackNames: config.cfOutputs })
       ])
     )
-    .then(([validatedConfig, accountId, region]) => {
-      const mergedVariables = Object.assign({}, variables, {
+    .then(([validatedConfig, accountId, region, cfOutputs]) => {
+      const mergedVariables = Object.assign({}, variables, cfOutputs, {
         accountId,
         region
       });
@@ -62,7 +60,6 @@ const makeGetSettings = ({
         interpolate({ value, variables: mergedVariables })
       );
     })
-    .then(appendCfOutputs)
     .then(appendConfigParameters)
     .then(appendSecretParameters);
 };

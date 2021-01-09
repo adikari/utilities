@@ -12,8 +12,10 @@ const chalk = require('chalk');
 const { log, logWarning } = require('../../utils/logger');
 
 const readCfOutputs = ({ stackName }) => {
-  if(!stackName) {
-    return Bluebird.reject(new Error('Please specify stackName for readCfOutputs'));
+  if (!stackName) {
+    return Bluebird.reject(
+      new Error('Please specify stackName for readCfOutputs')
+    );
   }
 
   const params = { StackName: stackName };
@@ -43,9 +45,11 @@ const readCfOutputs = ({ stackName }) => {
 const getOutputs = ({ stackNames }) => {
   stackNames = stackNames || [];
 
-  return Bluebird
-    .map(stackNames, stackName => readCfOutputs({ stackName }))
-    .then(outputs => outputs.reduce((acc, output) => Object.assign(acc, output), {}));
+  return Bluebird.map(stackNames, stackName =>
+    readCfOutputs({ stackName })
+  ).then(outputs =>
+    outputs.reduce((acc, output) => Object.assign(acc, output), {})
+  );
 };
 
 module.exports = {

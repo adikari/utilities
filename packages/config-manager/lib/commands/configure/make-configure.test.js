@@ -101,8 +101,7 @@ describe('run', () => {
           '/testing/config/DB_HOST': '3200',
           '/testing/config/DB_NAME': 'my-database',
           '/testing/config/config1': '1',
-          '/testing/config/config2': '2',
-          '/testing/config/Domain': 'some-domain.com'
+          '/testing/config/config2': '2'
         }
       });
     });
