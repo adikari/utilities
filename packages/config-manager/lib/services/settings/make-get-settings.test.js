@@ -109,6 +109,9 @@ describe('getSettings', () => {
     });
 
     return getSettings().then(settings => {
+      expect(mockGetOutputs).toHaveBeenCalledWith({
+        stackNames: ['custom-resources-test']
+      });
       expect(settings).toEqual({
         cfOutputs: ['custom-resources-test'],
         config: {
