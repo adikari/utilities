@@ -47,7 +47,11 @@ const makeGetSettings = ({ settingsFilePath, variables }) => () => {
         getValidatedSettings({ config }),
         getAccountId(),
         getRegion(),
-        getOutputs({ stackNames: config.cfOutputs })
+        getOutputs({
+          stackNames: config.cfOutputs.map(stack =>
+            interpolate({ value: stack, variables })
+          )
+        })
       ])
     )
     .then(([validatedConfig, accountId, region, cfOutputs]) => {
