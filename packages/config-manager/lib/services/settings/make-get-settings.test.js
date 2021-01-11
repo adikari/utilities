@@ -7,6 +7,7 @@ const path = require('path');
 const { makeGetSettings } = require('./make-get-settings');
 
 describe('getSettings', () => {
+  beforeEach(() => jest.clearAllMocks());
   it('should throw an error when the provider is valid but the configuration is incorrect', () => {
     const getSettings = makeGetSettings({
       settingsFilePath: path.resolve(
@@ -114,6 +115,43 @@ describe('getSettings', () => {
       });
       expect(settings).toEqual({
         cfOutputs: ['custom-resources-test'],
+        config: {
+          defaults: {
+            DB_NAME: 'my-database',
+            DB_ARN: 'arn-path-my-database'
+          },
+          path: '/test/config'
+        },
+        configParameters: ['/test/config/DB_NAME', '/test/config/DB_ARN'],
+        provider: {
+          name: 'ssm'
+        },
+        secret: {
+          path: '/test/secret',
+          required: {
+            DB_PASSWORD: 'secret database password'
+          }
+        },
+        secretParameters: ['/test/secret/DB_PASSWORD'],
+        service: 'my-service'
+      });
+    });
+  });
+
+  it('should interpolate the yaml file without cloudformation outputs', () => {
+    const getSettings = makeGetSettings({
+      settingsFilePath: path.resolve(
+        process.cwd(),
+        './mocks/no-cf-outputs.yml'
+      ),
+      variables: {
+        stage: 'test'
+      }
+    });
+
+    return getSettings().then(settings => {
+      expect(mockGetOutputs).toHaveBeenCalledWith({ stackNames: [] });
+      expect(settings).toEqual({
         config: {
           defaults: {
             DB_NAME: 'my-database',
