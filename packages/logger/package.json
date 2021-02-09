@@ -1,6 +1,6 @@
 {
   "name": "@adikari/logger",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Logger library",
   "main": "index.js",
   "scripts": {

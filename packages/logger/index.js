@@ -18,8 +18,7 @@ const redact = [
   'password',
   'secret',
   'key',
-  'apiKey',
-  'api-key'
+  'apiKey'
 ];
 
 const logger = pino({
