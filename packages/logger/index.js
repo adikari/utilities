@@ -4,7 +4,9 @@ const { v4: uuid } = require('uuid');
 let correlationId = null;
 
 const setCorrelationId = id => {
-  correlationId = id;
+  if (id) {
+    correlationId = id;
+  }
 };
 
 const getCorrelationId = () => {
