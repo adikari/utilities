@@ -28,19 +28,22 @@ const metadata = {
 };
 
 const redact = [
-  'address',
-  'phone',
-  'email',
-  'password',
-  'secret',
-  'key',
-  'apiKey'
+  'data.address',
+  'data.phone',
+  'data.email',
+  'data.password',
+  'data.secret',
+  'data.key',
+  'data.apiKey'
 ];
 
 const logger = pino({
   level: process.env.LOG_LEVEL || (metadata.stage === 'dev' ? 'debug' : 'info'),
   redact,
-  mixin: () => ({ metadata })
+  mixin: () => ({ ...metadata }),
+  formatters: {
+    log: obj => ({ data: obj })
+  }
 });
 
 module.exports = {
