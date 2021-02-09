@@ -1,8 +1,22 @@
 const pino = require('pino');
 const { v4: uuid } = require('uuid');
 
+let correlationId = null;
+
+const setCorrelationId = id => {
+  correlationId = id;
+};
+
+const getCorrelationId = () => {
+  if (!correlationId) {
+    correlationId = uuid();
+  }
+
+  return correlationId;
+};
+
 const metadata = {
-  correlationId: uuid(),
+  correlationId: getCorrelationId(),
   stage: process.env.STAGE,
   origin: process.env.SERVICE_NAME,
   awsRegion: process.env.AWS_REGION || process.env.AWS_DEFAULT_REGION,
@@ -26,12 +40,6 @@ const logger = pino({
   redact,
   mixin: () => ({ ...metadata })
 });
-
-const setCorrelationId = id => {
-  metadata.correlationId = id;
-};
-
-const getCorrelationId = () => metadata.correlationId;
 
 module.exports = {
   setCorrelationId,
