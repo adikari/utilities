@@ -40,9 +40,8 @@ const redact = [
 const logger = pino({
   level: process.env.LOG_LEVEL || (metadata.stage === 'dev' ? 'debug' : 'info'),
   redact,
-  mixin: () => ({ ...metadata }),
   formatters: {
-    log: obj => ({ data: obj })
+    log: obj => ({ data: obj, ...metadata })
   }
 });
 
