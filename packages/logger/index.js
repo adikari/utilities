@@ -40,7 +40,7 @@ const redact = [
 const logger = pino({
   level: process.env.LOG_LEVEL || (metadata.stage === 'dev' ? 'debug' : 'info'),
   redact,
-  mixin: () => ({ ...metadata })
+  mixin: () => ({ metadata })
 });
 
 module.exports = {
