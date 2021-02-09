@@ -11,9 +11,20 @@ const metadata = {
   functionMemorySize: process.env.AWS_LAMBDA_FUNCTION_MEMORY_SIZE
 };
 
+const redact = [
+  'address',
+  'phone',
+  'email',
+  'password',
+  'secret',
+  'key',
+  'apiKey',
+  'api-key'
+];
+
 const logger = pino({
   level: process.env.LOG_LEVEL || (metadata.stage === 'dev' ? 'debug' : 'info'),
-  redact: ['address', 'phone', 'email'],
+  redact,
   mixin: () => ({ ...metadata })
 });
 
