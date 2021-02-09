@@ -1,0 +1,40 @@
+{
+  "name": "@adikari/logger",
+  "version": "1.0.0",
+  "description": "Logger library",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"no tests :(\"",
+    "lint": "eslint ."
+  },
+  "engines": {
+    "node": ">=10.x"
+  },
+  "keywords": [
+    "aws logger",
+    "logger",
+    "cloudwatch",
+    "aws"
+  ],
+  "repository": {
+    "url": "https://github.com/adikari/utilities",
+    "type": "git"
+  },
+  "author": "Subash Adhikari <me@subash.com.au>",
+  "license": "MIT",
+  "dependencies": {
+    "pino": "^6.11.0",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "eslint": "^7.16.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-config-prettier": "^7.2.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-prettier": "^3.3.1",
+    "prettier": "^2.2.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
