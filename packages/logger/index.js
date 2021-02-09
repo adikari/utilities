@@ -32,7 +32,10 @@ const setCorrelationId = id => {
   metadata.correlationId = id;
 };
 
+const getCorrelationId = () => metadata.correlationId;
+
 module.exports = {
   setCorrelationId,
+  getCorrelationId,
   logger
 };
