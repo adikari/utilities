@@ -40,8 +40,9 @@ const redact = [
 const logger = pino({
   level: process.env.LOG_LEVEL || (metadata.stage === 'dev' ? 'debug' : 'info'),
   redact,
+  prettyPrint: process.env.IS_OFFLINE === true,
   formatters: {
-    log: obj => ({ data: obj, ...metadata })
+    log: obj => ({ ...metadata, data: obj })
   }
 });
 
