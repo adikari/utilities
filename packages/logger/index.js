@@ -32,9 +32,14 @@ const redact = [
   'data.phone',
   'data.email',
   'data.password',
+  'data.passwords',
   'data.secret',
+  'data.secrets',
   'data.key',
-  'data.apiKey'
+  'data.keys',
+  'data.apiKey',
+  'data.apiKeys',
+  'data.context.keys'
 ];
 
 const logger = pino({
