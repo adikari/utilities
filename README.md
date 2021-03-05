@@ -14,3 +14,5 @@ Node module to push configuration and encrypted secrets to AWS.
 
 - [config-store](https://github.com/adikari/utilities/tree/master/packages/config-store)
 Reads parameters from specified provider
+
+- [logger](https://github.com/adikari/utilities/tree/master/packages/logger) Logging library to help with loggin in AWS Lambda
